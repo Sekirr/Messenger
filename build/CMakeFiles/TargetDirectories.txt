@@ -1,0 +1,4 @@
+/home/danila/projects/Messenger/build/CMakeFiles/MessengerClient.dir
+/home/danila/projects/Messenger/build/CMakeFiles/MessengerServer.dir
+/home/danila/projects/Messenger/build/CMakeFiles/edit_cache.dir
+/home/danila/projects/Messenger/build/CMakeFiles/rebuild_cache.dir
