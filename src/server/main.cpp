@@ -3,6 +3,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <cstring>
+#include <vector>
 
 int createSocket()
 {
@@ -11,6 +12,8 @@ int createSocket()
 
 int main()
 {
+    const std::size_t MAX_MESSAGE_SIZE = 64 * 1024;
+
     int serverSocket = createSocket();
     if (serverSocket == -1)
     {
@@ -42,68 +45,126 @@ int main()
         return 1;
     }
 
-    int clientSocket = accept(serverSocket, nullptr, nullptr);
-
-    if (clientSocket == -1)
+    // accept loop
+    while (true)
     {
-        std::cerr << "Failed to accept socket";
-        close(serverSocket);
-        return 1;
-    }
+        int clientSocket = accept(serverSocket, nullptr, nullptr);
 
-    std::cout << "Client connected\n";
+        if (clientSocket < 0)
+        {
+            std::cerr << "Failed to accept socket";
+            close(serverSocket);
+            return 1;
+        }
 
-    char buffer[1024]{};
+        std::cout << "Client connected\n";
 
-    ssize_t bytesReceived = recv(
-        clientSocket,
-        buffer,
-        sizeof(buffer) - 1,
-        0);
+        bool connectionAlive = true;
 
-    if (bytesReceived == -1)
-    {
-        std::cerr << "Failed to receive message\n";
+        // client loop
+        while (connectionAlive)
+        {
+            ssize_t bytesReceived;
+            uint32_t networkLength = 0;
+            std::size_t received = 0;
+            const std::size_t expected = sizeof(networkLength);
+
+            // header loop
+            while (received < expected)
+            {
+                bytesReceived = recv(
+                    clientSocket,
+                    reinterpret_cast<char *>(&networkLength) + received,
+                    expected - received,
+                    0);
+
+                // error
+                if (bytesReceived < 0)
+                {
+                    std::cerr << "Failed to receive message\n";
+                    connectionAlive = false;
+                    break;
+                }
+
+                if (bytesReceived == 0)
+                {
+                    std::cout << "Client closed the connection\n";
+                    connectionAlive = false;
+                    break;
+                }
+
+                received += static_cast<std::size_t>(bytesReceived);
+            }
+
+            std::size_t payloadReceived = 0;
+            const uint32_t messageLength = ntohl(networkLength);
+
+            if (messageLength > MAX_MESSAGE_SIZE)
+            {
+                std::cerr << "Limit message exceeded\n";
+                break;
+            }
+            std::vector<char> buffer(messageLength);
+            // payload loop
+            while (payloadReceived < messageLength)
+            {
+                bytesReceived = recv(
+                    clientSocket,
+                    buffer.data() + payloadReceived,
+                    messageLength - payloadReceived,
+                    0);
+
+                if (bytesReceived < 0)
+                {
+                    std::cerr << "Failed to receive message\n";
+                    connectionAlive = false;
+                    break;
+                }
+
+                if (bytesReceived == 0)
+                {
+                    std::cout << "Client closed the connection\n";
+                    connectionAlive = false;
+                    break;
+                }
+
+                payloadReceived += static_cast<std::size_t>(bytesReceived);
+            }
+            // sending a reply message
+            std::size_t offset = 0;
+            const std::size_t totalSize = static_cast<std::size_t>(bytesReceived);
+
+            // send loop
+            while (offset < totalSize)
+            {
+                const ssize_t bytesSent = send(
+                    clientSocket,
+                    buffer.data + offset,
+                    totalSize - offset,
+                    0);
+
+                // error
+                if (bytesSent < 0)
+                {
+                    connectionAlive = false;
+                    std::cerr << "Failed to send response\n";
+                    break;
+                }
+
+                if (bytesSent == 0)
+                {
+                    connectionAlive = false;
+                    break;
+                }
+
+                // advance by the number of bytes sent
+                offset += static_cast<std::size_t>(bytesSent);
+            }
+        }
+
         close(clientSocket);
-        close(serverSocket);
-        return 1;
     }
-
-    if (bytesReceived > 0)
-    {
-        buffer[bytesReceived] = '\0';
-        std::cout << "Received: " << buffer << "\n";
-    }
-
-    // sending a reply message
-    ssize_t receivedSend;
-    int offset = 0;
-    const std::size_t totalSize = static_cast<std::size_t>(bytesReceived);
-
-    while (offset != strlen(buffer))
-    {
-        receivedSend = send(
-            clientSocket,
-            buffer + offset,
-            totalSize - offset,
-            0);
-
-        // error
-        if (receivedSend < 0)
-        {
-            std::cout << "Response received error\n";
-            close(clientSocket);
-            break;
-        }
-
-        // did not send completely
-        if (receivedSend > 0)
-        {
-            offset += receivedSend;
-        }
-    }
-
-    close(clientSocket);
+    // close(clientSocket);
     close(serverSocket);
     return 0;
 }
