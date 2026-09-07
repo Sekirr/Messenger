@@ -75,24 +75,34 @@ int main()
         std::cout << "Received: " << buffer << "\n";
     }
 
-    ssize_t receivedSend = send(
-        clientSocket,
-        buffer,
-        std::strlen(buffer),
-        0);
+    // sending a reply message
+    ssize_t receivedSend;
+    int offset = 0;
+    const std::size_t totalSize = static_cast<std::size_t>(bytesReceived);
 
-    if (receivedSend > 0)
+    while (offset != strlen(buffer))
     {
-        std::cout << "Response sent\n";
+        receivedSend = send(
+            clientSocket,
+            buffer + offset,
+            totalSize - offset,
+            0);
+
+        // error
+        if (receivedSend < 0)
+        {
+            std::cout << "Response received error\n";
+            close(clientSocket);
+            break;
+        }
+
+        // did not send completely
+        if (receivedSend > 0)
+        {
+            offset += receivedSend;
+        }
     }
-    else if (receivedSend == 0)
-    {
-        std::cout << "Stream the end\n";
-    }
-    else
-    {
-        std::cout << "Response received error";
-    }
+
     close(clientSocket);
     close(serverSocket);
     return 0;

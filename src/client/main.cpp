@@ -33,7 +33,7 @@ int main()
             reinterpret_cast<sockaddr *>(&serverAddress),
             sizeof(serverAddress)) == -1)
     {
-        std::cerr << "Connected to server\n";
+        std::cerr << "Server not connected\n";
         close(clientSocket);
         return 1;
     }
