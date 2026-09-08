@@ -96,6 +96,11 @@ int main()
                 received += static_cast<std::size_t>(bytesReceived);
             }
 
+            if (!connectionAlive)
+            {
+                break;
+            }
+
             std::size_t payloadReceived = 0;
             const uint32_t messageLength = ntohl(networkLength);
 
@@ -105,6 +110,7 @@ int main()
                 break;
             }
             std::vector<char> buffer(messageLength);
+
             // payload loop
             while (payloadReceived < messageLength)
             {
@@ -130,16 +136,56 @@ int main()
 
                 payloadReceived += static_cast<std::size_t>(bytesReceived);
             }
-            // sending a reply message
-            std::size_t offset = 0;
-            const std::size_t totalSize = static_cast<std::size_t>(bytesReceived);
 
-            // send loop
+            if (!connectionAlive)
+            {
+                break;
+            }
+
+            // send header
+            const uint32_t responseLength = static_cast<uint32_t>(buffer.size());
+            const uint32_t networkResponseLength = htonl(responseLength);
+            std::size_t headerOffset = 0;
+            const std::size_t headerSize = sizeof(networkResponseLength);
+
+            while (headerOffset < headerSize)
+            {
+                const ssize_t bytesSentHeader = send(
+                    clientSocket,
+                    reinterpret_cast<const char *>(&networkResponseLength) + headerOffset,
+                    headerSize - headerOffset,
+                    0);
+
+                // error
+                if (bytesSentHeader < 0)
+                {
+                    connectionAlive = false;
+                    std::cerr << "Failed to send header response";
+                    break;
+                }
+                if (bytesSentHeader == 0)
+                {
+                    connectionAlive = false;
+                    break;
+                }
+
+                headerOffset += static_cast<std::size_t>(bytesSentHeader);
+            }
+
+            if (!connectionAlive)
+            {
+                break;
+            }
+
+            // send payload
+            const std::size_t totalSize = buffer.size();
+            std::size_t offset = 0;
+
             while (offset < totalSize)
             {
                 const ssize_t bytesSent = send(
                     clientSocket,
-                    buffer.data + offset,
+                    buffer.data() + offset,
                     totalSize - offset,
                     0);
 
@@ -164,7 +210,7 @@ int main()
 
         close(clientSocket);
     }
-    // close(clientSocket);
+
     close(serverSocket);
     return 0;
 }
