@@ -15,6 +15,87 @@ bool checkMessageLength(const std::string &message)
         std::cerr << "Error message. The length exceeds the limit. \n";
         return false;
     }
+    if (message.empty())
+    {
+        std::cerr << "Error message. Length message 0 chars.\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool checkSend(ssize_t sendData)
+{
+    if (sendData == 0)
+    {
+        std::cerr << "Send 0 byte\n";
+        return false;
+    }
+    if (sendData < 0)
+    {
+        std::cerr << "Error send\n";
+        return false;
+    }
+    return true;
+}
+
+bool checkRecv(ssize_t recvData)
+{
+    if (recvData == 0)
+    {
+        std::cerr << "The other side has closed the connections\n";
+        return false;
+    }
+    if (recvData < 0)
+    {
+        std::cerr << "Error recieved\n";
+        return false;
+    }
+    return true;
+}
+
+bool sendAll(int socket, const char *buffer, std::size_t sizeBuffer)
+{
+    std::size_t offset = 0;
+
+    while (offset < sizeBuffer)
+    {
+        const ssize_t sendData = send(
+            socket,
+            buffer + offset,
+            sizeBuffer - offset,
+            0);
+
+        if (!checkSend(sendData))
+        {
+            return false;
+        }
+
+        offset += static_cast<std::size_t>(sendData);
+    }
+
+    return true;
+}
+
+bool recvAll(int socket, char *buffer, std::size_t sizeBuffer)
+{
+    std::size_t offset = 0;
+
+    while (offset < sizeBuffer)
+    {
+        const ssize_t recvData = recv(
+            socket,
+            buffer + offset,
+            sizeBuffer - offset,
+            0);
+
+        if (!checkRecv(recvData))
+        {
+            return false;
+        }
+
+        offset += static_cast<std::size_t>(recvData);
+    }
 
     return true;
 }
@@ -65,181 +146,72 @@ int main()
     }
 
     // sending
-    bool connectionAlive = true;
     std::string message;
 
-    while (connectionAlive)
+    while (true)
     {
-        std::getline(std::cin, message);
-        bool checkMessage = checkMessageLength(message);
-
-        while (true)
+        if (!std::getline(std::cin, message))
         {
-            if (!checkMessage)
-            {
-                std::cerr << "Invalid input. Message larger max size.\n";
-                std::cout << "invalid input. Max message length 65424. You will try again?(y/n)";
-                char answerFromClient;
-                std::cin >> answerFromClient;
-                if (answerFromClient == 'y')
-                {
-                    std::getline(std::cin, message);
-                    bool checkMessage = checkMessageLength(message);
-                    break;
-                }
-                else
-                {
-                    std::cout << "Goodbye\n";
-                    close(clientSocket);
-                    return 1;
-                }
-            }
+            break;
         }
+
+        if (!checkMessageLength(message))
+        {
+            return 1;
+        }
+
         // send header
-        const uint32_t networkLengthMessageForHeader = htonl(static_cast<uint32_t>(message.length()));
-        const std::size_t expected = sizeof(networkLengthMessageForHeader);
-        std::size_t offset = 0;
+        const uint32_t headerMessageSend = htonl(static_cast<uint32_t>(message.length()));
+        constexpr std::size_t expectedHeaderSize = sizeof(headerMessageSend);
 
-        while (offset < expected)
-        {
-            ssize_t headerSend = send(
+        if (!sendAll(
                 clientSocket,
-                reinterpret_cast<const char *>(&networkLengthMessageForHeader) + offset,
-                expected - offset,
-                0);
-
-            if (headerSend < 0)
-            {
-                std::cerr << "Error send header\n";
-                connectionAlive = false;
-                break;
-            }
-
-            if (headerSend == 0)
-            {
-                std::cerr << "Sending header 0 byte\n";
-                connectionAlive = false;
-                break;
-            }
-
-            offset += static_cast<std::size_t>(headerSend);
-        }
-
-        if (!connectionAlive)
+                reinterpret_cast<const char *>(&headerMessageSend),
+                expectedHeaderSize))
         {
             break;
         }
 
         // send payload
-        offset = 0;
+        const std::size_t messageLength = message.length();
 
-        while (offset < message.size())
-        {
-            ssize_t payloadSend = send(
+        if (!sendAll(
                 clientSocket,
-                message.data() + offset,
-                message.size() - offset,
-                0);
-
-            if (payloadSend < 0)
-            {
-                std::cerr << "Error send payload\n";
-                connectionAlive = false;
-                break;
-            }
-            if (payloadSend == 0)
-            {
-                std::cerr << "Sending payload 0 byte\n";
-                connectionAlive = false;
-                break;
-            }
-
-            offset += static_cast<std::size_t>(payloadSend);
-        }
-        if (!connectionAlive)
+                message.data(),
+                messageLength))
         {
             break;
         }
 
-        // recieved from server
-        uint32_t headerRecievedFromServer = 0;
-        std::size_t sizeHeader = sizeof(headerRecievedFromServer);
-        offset = 0;
+        // recv header
 
-        while (offset < sizeHeader)
-        {
-            ssize_t recvHeaderFromServer = recv(
+        uint32_t headerMessageRecv = 0;
+
+        if (!recvAll(
                 clientSocket,
-                reinterpret_cast<char *>(&headerRecievedFromServer) + offset,
-                sizeHeader - offset,
-                0);
-
-            if (recvHeaderFromServer == 0)
-            {
-                std::cerr << "The other party has completed the dispatch(header)\n";
-                close(clientSocket);
-                connectionAlive = false;
-                return 1;
-            }
-            if (recvHeaderFromServer < 0)
-            {
-                std::cerr << "Error recieved from server(header)\n";
-                close(clientSocket);
-                connectionAlive = false;
-                return 1;
-            }
-
-            offset += static_cast<std::size_t>(recvHeaderFromServer);
-        }
-
-        if (!connectionAlive)
-        {
-            close(clientSocket);
-            break;
-        }
-
-        size_t sizeMessageFromServer = static_cast<std::size_t>(ntohl(headerRecievedFromServer));
-
-        if (sizeMessageFromServer > MAX_LENGTH_MESSAGE)
-        {
-            std::cerr << "Recieved message size larger permissible value\n";
-            close(clientSocket);
-            return 1;
-        }
-
-        std::vector<char> bufferMessageFromServer(sizeMessageFromServer);
-        offset = 0;
-        while (offset < sizeMessageFromServer)
-        {
-            ssize_t recvFromServer = recv(
-                clientSocket,
-                bufferMessageFromServer.data() + offset,
-                sizeMessageFromServer - offset,
-                0);
-
-            if (recvFromServer == 0)
-            {
-                std::cerr << "The other party has completed the dispatch\n";
-                close(clientSocket);
-                connectionAlive = false;
-                return 1;
-            }
-            if (recvFromServer < 0)
-            {
-                std::cerr << "Error recieved from server\n";
-                close(clientSocket);
-                connectionAlive = false;
-                return 1;
-            }
-
-            offset += static_cast<std::size_t>(recvFromServer);
-        }
-        if (!connectionAlive)
+                reinterpret_cast<char *>(&headerMessageRecv),
+                expectedHeaderSize))
         {
             break;
         }
 
-        std::cout << std::string(bufferMessageFromServer.data(), sizeMessageFromServer) << "\n";
+        const std::size_t messageLengthRecv = static_cast<std::size_t>(ntohl(headerMessageRecv));
+
+        if (messageLengthRecv == 0 || messageLengthRecv > MAX_LENGTH_MESSAGE)
+        {
+            break;
+        }
+        std::vector<char> bufferMessage(messageLengthRecv);
+
+        if (!recvAll(
+                clientSocket,
+                bufferMessage.data(),
+                messageLengthRecv))
+        {
+            break;
+        }
+
+        std::cout << std::string(bufferMessage.data(), messageLengthRecv);
     }
     close(clientSocket);
 }
