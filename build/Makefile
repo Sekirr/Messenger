@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/danila/projects/Messenger
+CMAKE_SOURCE_DIR = /home/danila/Project/Messenger
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/danila/projects/Messenger/build
+CMAKE_BINARY_DIR = /home/danila/Project/Messenger/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles /home/danila/projects/Messenger/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles /home/danila/Project/Messenger/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,78 +117,115 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named MessengerClient
+# Target rules for targets named messenger_core
 
 # Build rule for target.
-MessengerClient: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MessengerClient
-.PHONY : MessengerClient
+messenger_core: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 messenger_core
+.PHONY : messenger_core
 
 # fast build rule for target.
-MessengerClient/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerClient.dir/build.make CMakeFiles/MessengerClient.dir/build
-.PHONY : MessengerClient/fast
+messenger_core/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/build
+.PHONY : messenger_core/fast
 
 #=============================================================================
-# Target rules for targets named MessengerServer
+# Target rules for targets named Client
 
 # Build rule for target.
-MessengerServer: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MessengerServer
-.PHONY : MessengerServer
+Client: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Client
+.PHONY : Client
 
 # fast build rule for target.
-MessengerServer/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerServer.dir/build.make CMakeFiles/MessengerServer.dir/build
-.PHONY : MessengerServer/fast
+Client/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/build
+.PHONY : Client/fast
 
-src/client/main.o: src/client/main.cpp.o
-.PHONY : src/client/main.o
+#=============================================================================
+# Target rules for targets named Server
 
-# target to build an object file
-src/client/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerClient.dir/build.make CMakeFiles/MessengerClient.dir/src/client/main.cpp.o
-.PHONY : src/client/main.cpp.o
+# Build rule for target.
+Server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Server
+.PHONY : Server
 
-src/client/main.i: src/client/main.cpp.i
-.PHONY : src/client/main.i
+# fast build rule for target.
+Server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/build
+.PHONY : Server/fast
 
-# target to preprocess a source file
-src/client/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerClient.dir/build.make CMakeFiles/MessengerClient.dir/src/client/main.cpp.i
-.PHONY : src/client/main.cpp.i
-
-src/client/main.s: src/client/main.cpp.s
-.PHONY : src/client/main.s
-
-# target to generate assembly for a file
-src/client/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerClient.dir/build.make CMakeFiles/MessengerClient.dir/src/client/main.cpp.s
-.PHONY : src/client/main.cpp.s
-
-src/server/main.o: src/server/main.cpp.o
-.PHONY : src/server/main.o
+src/Client.o: src/Client.cpp.o
+.PHONY : src/Client.o
 
 # target to build an object file
-src/server/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerServer.dir/build.make CMakeFiles/MessengerServer.dir/src/server/main.cpp.o
-.PHONY : src/server/main.cpp.o
+src/Client.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/src/Client.cpp.o
+.PHONY : src/Client.cpp.o
 
-src/server/main.i: src/server/main.cpp.i
-.PHONY : src/server/main.i
+src/Client.i: src/Client.cpp.i
+.PHONY : src/Client.i
 
 # target to preprocess a source file
-src/server/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerServer.dir/build.make CMakeFiles/MessengerServer.dir/src/server/main.cpp.i
-.PHONY : src/server/main.cpp.i
+src/Client.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/src/Client.cpp.i
+.PHONY : src/Client.cpp.i
 
-src/server/main.s: src/server/main.cpp.s
-.PHONY : src/server/main.s
+src/Client.s: src/Client.cpp.s
+.PHONY : src/Client.s
 
 # target to generate assembly for a file
-src/server/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MessengerServer.dir/build.make CMakeFiles/MessengerServer.dir/src/server/main.cpp.s
-.PHONY : src/server/main.cpp.s
+src/Client.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/src/Client.cpp.s
+.PHONY : src/Client.cpp.s
+
+src/Server.o: src/Server.cpp.o
+.PHONY : src/Server.o
+
+# target to build an object file
+src/Server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/src/Server.cpp.o
+.PHONY : src/Server.cpp.o
+
+src/Server.i: src/Server.cpp.i
+.PHONY : src/Server.i
+
+# target to preprocess a source file
+src/Server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/src/Server.cpp.i
+.PHONY : src/Server.cpp.i
+
+src/Server.s: src/Server.cpp.s
+.PHONY : src/Server.s
+
+# target to generate assembly for a file
+src/Server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/src/Server.cpp.s
+.PHONY : src/Server.cpp.s
+
+src/Socket.o: src/Socket.cpp.o
+.PHONY : src/Socket.o
+
+# target to build an object file
+src/Socket.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/Socket.cpp.o
+.PHONY : src/Socket.cpp.o
+
+src/Socket.i: src/Socket.cpp.i
+.PHONY : src/Socket.i
+
+# target to preprocess a source file
+src/Socket.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/Socket.cpp.i
+.PHONY : src/Socket.cpp.i
+
+src/Socket.s: src/Socket.cpp.s
+.PHONY : src/Socket.s
+
+# target to generate assembly for a file
+src/Socket.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/Socket.cpp.s
+.PHONY : src/Socket.cpp.s
 
 # Help Target
 help:
@@ -198,14 +235,18 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... MessengerClient"
-	@echo "... MessengerServer"
-	@echo "... src/client/main.o"
-	@echo "... src/client/main.i"
-	@echo "... src/client/main.s"
-	@echo "... src/server/main.o"
-	@echo "... src/server/main.i"
-	@echo "... src/server/main.s"
+	@echo "... Client"
+	@echo "... Server"
+	@echo "... messenger_core"
+	@echo "... src/Client.o"
+	@echo "... src/Client.i"
+	@echo "... src/Client.s"
+	@echo "... src/Server.o"
+	@echo "... src/Server.i"
+	@echo "... src/Server.s"
+	@echo "... src/Socket.o"
+	@echo "... src/Socket.i"
+	@echo "... src/Socket.s"
 .PHONY : help
 
 

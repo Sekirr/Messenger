@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Server.dir/src/Server.cpp.o -o Server  libmessenger_core.a 

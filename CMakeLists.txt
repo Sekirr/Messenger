@@ -1,21 +1,65 @@
 cmake_minimum_required(VERSION 3.20)
-project(Messenger)
+
+project(Messenger LANGUAGES CXX)
+
 set(CMAKE_CXX_STANDARD 20)
-add_executable(
-    MessengerClient
-    src/client/main.cpp
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_library(messenger_core
+    src/Socket.cpp
 )
-add_executable(
-    MessengerServer
-    src/server/main.cpp
-)
+
 target_include_directories(
-    MessengerClient
-    PRIVATE
+    messenger_core
+    PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-target_include_directories(
-    MessengerServer
+
+target_compile_options(
+    messenger_core
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
+
+    -Wall
+    -Wextra
+    -Wpedantic
+)
+
+# собрать исполняемый файл
+add_executable(
+    Client
+    src/Client.cpp
+)
+
+target_link_libraries(
+    Client
+    PRIVATE
+    messenger_core
+)
+
+target_compile_options(
+    Client
+    PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+)
+
+add_executable(
+    Server
+    src/Server.cpp
+)
+
+target_link_libraries(
+    Server
+    PRIVATE
+    messenger_core
+)
+
+target_compile_options(
+    Server
+    PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
 )
