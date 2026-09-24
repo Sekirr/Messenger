@@ -63,3 +63,22 @@ target_compile_options(
     -Wextra
     -Wpedantic
 )
+
+add_executable(
+    SocketTest
+    src/main.cpp
+)
+
+target_link_libraries(
+    SocketTest
+    PRIVATE
+    messenger_core
+)
+
+target_compile_options(
+    SocketTest
+    PRIVATE
+    -Wall
+    -Wextra
+    -Wpedantic
+)

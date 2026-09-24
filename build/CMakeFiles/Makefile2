@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/danila/Project/Messenger
+CMAKE_SOURCE_DIR = /home/danila/projects/Messenger
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/danila/Project/Messenger/build
+CMAKE_BINARY_DIR = /home/danila/projects/Messenger/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -66,6 +66,7 @@ CMAKE_BINARY_DIR = /home/danila/Project/Messenger/build
 all: CMakeFiles/messenger_core.dir/all
 all: CMakeFiles/Client.dir/all
 all: CMakeFiles/Server.dir/all
+all: CMakeFiles/SocketTest.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -76,6 +77,7 @@ preinstall:
 clean: CMakeFiles/messenger_core.dir/clean
 clean: CMakeFiles/Client.dir/clean
 clean: CMakeFiles/Server.dir/clean
+clean: CMakeFiles/SocketTest.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -85,14 +87,14 @@ clean: CMakeFiles/Server.dir/clean
 CMakeFiles/messenger_core.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/danila/Project/Messenger/build/CMakeFiles --progress-num=5,6 "Built target messenger_core"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/danila/projects/Messenger/build/CMakeFiles --progress-num=7,8 "Built target messenger_core"
 .PHONY : CMakeFiles/messenger_core.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/messenger_core.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/messenger_core.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 0
 .PHONY : CMakeFiles/messenger_core.dir/rule
 
 # Convenience name for target.
@@ -111,14 +113,14 @@ CMakeFiles/messenger_core.dir/clean:
 CMakeFiles/Client.dir/all: CMakeFiles/messenger_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Client.dir/build.make CMakeFiles/Client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/danila/Project/Messenger/build/CMakeFiles --progress-num=1,2 "Built target Client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/danila/projects/Messenger/build/CMakeFiles --progress-num=1,2 "Built target Client"
 .PHONY : CMakeFiles/Client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 0
 .PHONY : CMakeFiles/Client.dir/rule
 
 # Convenience name for target.
@@ -137,14 +139,14 @@ CMakeFiles/Client.dir/clean:
 CMakeFiles/Server.dir/all: CMakeFiles/messenger_core.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/danila/Project/Messenger/build/CMakeFiles --progress-num=3,4 "Built target Server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/danila/projects/Messenger/build/CMakeFiles --progress-num=3,4 "Built target Server"
 .PHONY : CMakeFiles/Server.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Server.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 0
 .PHONY : CMakeFiles/Server.dir/rule
 
 # Convenience name for target.
@@ -155,6 +157,32 @@ Server: CMakeFiles/Server.dir/rule
 CMakeFiles/Server.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/clean
 .PHONY : CMakeFiles/Server.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/SocketTest.dir
+
+# All Build rule for target.
+CMakeFiles/SocketTest.dir/all: CMakeFiles/messenger_core.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SocketTest.dir/build.make CMakeFiles/SocketTest.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SocketTest.dir/build.make CMakeFiles/SocketTest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/danila/projects/Messenger/build/CMakeFiles --progress-num=5,6 "Built target SocketTest"
+.PHONY : CMakeFiles/SocketTest.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/SocketTest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/SocketTest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 0
+.PHONY : CMakeFiles/SocketTest.dir/rule
+
+# Convenience name for target.
+SocketTest: CMakeFiles/SocketTest.dir/rule
+.PHONY : SocketTest
+
+# clean rule for target.
+CMakeFiles/SocketTest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SocketTest.dir/build.make CMakeFiles/SocketTest.dir/clean
+.PHONY : CMakeFiles/SocketTest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/danila/Project/Messenger/src/Server.cpp" "CMakeFiles/Server.dir/src/Server.cpp.o" "gcc" "CMakeFiles/Server.dir/src/Server.cpp.o.d"
+  "/home/danila/projects/Messenger/src/Server.cpp" "CMakeFiles/Server.dir/src/Server.cpp.o" "gcc" "CMakeFiles/Server.dir/src/Server.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

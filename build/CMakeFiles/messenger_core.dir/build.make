@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/danila/Project/Messenger
+CMAKE_SOURCE_DIR = /home/danila/projects/Messenger
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/danila/Project/Messenger/build
+CMAKE_BINARY_DIR = /home/danila/projects/Messenger/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/messenger_core.dir/depend.make
@@ -70,18 +70,18 @@ include CMakeFiles/messenger_core.dir/progress.make
 include CMakeFiles/messenger_core.dir/flags.make
 
 CMakeFiles/messenger_core.dir/src/Socket.cpp.o: CMakeFiles/messenger_core.dir/flags.make
-CMakeFiles/messenger_core.dir/src/Socket.cpp.o: /home/danila/Project/Messenger/src/Socket.cpp
+CMakeFiles/messenger_core.dir/src/Socket.cpp.o: /home/danila/projects/Messenger/src/Socket.cpp
 CMakeFiles/messenger_core.dir/src/Socket.cpp.o: CMakeFiles/messenger_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/danila/Project/Messenger/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/messenger_core.dir/src/Socket.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/messenger_core.dir/src/Socket.cpp.o -MF CMakeFiles/messenger_core.dir/src/Socket.cpp.o.d -o CMakeFiles/messenger_core.dir/src/Socket.cpp.o -c /home/danila/Project/Messenger/src/Socket.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/danila/projects/Messenger/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/messenger_core.dir/src/Socket.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/messenger_core.dir/src/Socket.cpp.o -MF CMakeFiles/messenger_core.dir/src/Socket.cpp.o.d -o CMakeFiles/messenger_core.dir/src/Socket.cpp.o -c /home/danila/projects/Messenger/src/Socket.cpp
 
 CMakeFiles/messenger_core.dir/src/Socket.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/messenger_core.dir/src/Socket.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/danila/Project/Messenger/src/Socket.cpp > CMakeFiles/messenger_core.dir/src/Socket.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/danila/projects/Messenger/src/Socket.cpp > CMakeFiles/messenger_core.dir/src/Socket.cpp.i
 
 CMakeFiles/messenger_core.dir/src/Socket.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/messenger_core.dir/src/Socket.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/danila/Project/Messenger/src/Socket.cpp -o CMakeFiles/messenger_core.dir/src/Socket.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/danila/projects/Messenger/src/Socket.cpp -o CMakeFiles/messenger_core.dir/src/Socket.cpp.s
 
 # Object files for target messenger_core
 messenger_core_OBJECTS = \
@@ -93,7 +93,7 @@ messenger_core_EXTERNAL_OBJECTS =
 libmessenger_core.a: CMakeFiles/messenger_core.dir/src/Socket.cpp.o
 libmessenger_core.a: CMakeFiles/messenger_core.dir/build.make
 libmessenger_core.a: CMakeFiles/messenger_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/danila/Project/Messenger/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libmessenger_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/danila/projects/Messenger/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libmessenger_core.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/messenger_core.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/messenger_core.dir/link.txt --verbose=$(VERBOSE)
 
@@ -106,6 +106,6 @@ CMakeFiles/messenger_core.dir/clean:
 .PHONY : CMakeFiles/messenger_core.dir/clean
 
 CMakeFiles/messenger_core.dir/depend:
-	cd /home/danila/Project/Messenger/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/danila/Project/Messenger /home/danila/Project/Messenger /home/danila/Project/Messenger/build /home/danila/Project/Messenger/build /home/danila/Project/Messenger/build/CMakeFiles/messenger_core.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/danila/projects/Messenger/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/danila/projects/Messenger /home/danila/projects/Messenger /home/danila/projects/Messenger/build /home/danila/projects/Messenger/build /home/danila/projects/Messenger/build/CMakeFiles/messenger_core.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/messenger_core.dir/depend
 

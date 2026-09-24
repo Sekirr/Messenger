@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/danila/Project/Messenger
+CMAKE_SOURCE_DIR = /home/danila/projects/Messenger
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/danila/Project/Messenger/build
+CMAKE_BINARY_DIR = /home/danila/projects/Messenger/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles /home/danila/Project/Messenger/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles /home/danila/projects/Messenger/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -154,6 +154,19 @@ Server: cmake_check_build_system
 Server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Server.dir/build.make CMakeFiles/Server.dir/build
 .PHONY : Server/fast
+
+#=============================================================================
+# Target rules for targets named SocketTest
+
+# Build rule for target.
+SocketTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SocketTest
+.PHONY : SocketTest
+
+# fast build rule for target.
+SocketTest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SocketTest.dir/build.make CMakeFiles/SocketTest.dir/build
+.PHONY : SocketTest/fast
 
 src/Client.o: src/Client.cpp.o
 .PHONY : src/Client.o
@@ -227,6 +240,30 @@ src/Socket.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/Socket.cpp.s
 .PHONY : src/Socket.cpp.s
 
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SocketTest.dir/build.make CMakeFiles/SocketTest.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SocketTest.dir/build.make CMakeFiles/SocketTest.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SocketTest.dir/build.make CMakeFiles/SocketTest.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -237,6 +274,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Client"
 	@echo "... Server"
+	@echo "... SocketTest"
 	@echo "... messenger_core"
 	@echo "... src/Client.o"
 	@echo "... src/Client.i"
@@ -247,6 +285,9 @@ help:
 	@echo "... src/Socket.o"
 	@echo "... src/Socket.i"
 	@echo "... src/Socket.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/SocketTest.dir/src/main.cpp.o -o SocketTest  libmessenger_core.a 

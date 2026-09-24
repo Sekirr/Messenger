@@ -1,4 +1,4 @@
-# Install script for directory: /home/danila/Project/Messenger
+# Install script for directory: /home/danila/projects/Messenger
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/danila/Project/Messenger/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/danila/projects/Messenger/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

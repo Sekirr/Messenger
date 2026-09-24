@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/danila/Project/Messenger/include
+CXX_INCLUDES = -I/home/danila/projects/Messenger/include
 
 CXX_FLAGS = -std=c++20 -Wall -Wextra -Wpedantic
 
