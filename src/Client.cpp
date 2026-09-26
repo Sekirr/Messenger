@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <vector>
+#include <cstdio>
 
 constexpr std::size_t MAX_LENGTH_MESSAGE = 64 * 1024;
 
@@ -140,9 +141,12 @@ int main()
 
     if (result < 0)
     {
-        std::cerr << "Connection from client to server error\n";
+        perror("connect");
         close(clientSocket);
         return 1;
+        // std::cerr << "Connection from client to server error\n";
+        // close(clientSocket);
+        // return 1;
     }
 
     // sending

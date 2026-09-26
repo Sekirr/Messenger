@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/messenger_core.dir/src/Socket.cpp.o"
   "CMakeFiles/messenger_core.dir/src/Socket.cpp.o.d"
+  "CMakeFiles/messenger_core.dir/src/TCPListener.cpp.o"
+  "CMakeFiles/messenger_core.dir/src/TCPListener.cpp.o.d"
   "libmessenger_core.a"
   "libmessenger_core.pdb"
 )

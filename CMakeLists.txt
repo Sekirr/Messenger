@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(messenger_core
     src/Socket.cpp
+    src/TCPListener.cpp
 )
 
 target_include_directories(

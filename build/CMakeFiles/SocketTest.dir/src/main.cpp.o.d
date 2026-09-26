@@ -1,5 +1,5 @@
 CMakeFiles/SocketTest.dir/src/main.cpp.o: \
- /home/danila/projects/Messenger/src/main.cpp /usr/include/stdc-predef.h \
+ /home/danila/Project/Messenger/src/main.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -154,7 +154,8 @@ CMakeFiles/SocketTest.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /home/danila/projects/Messenger/include/Socket.hpp \
+ /home/danila/Project/Messenger/include/TCPListener.hpp \
+ /home/danila/Project/Messenger/include/Socket.hpp \
  /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \

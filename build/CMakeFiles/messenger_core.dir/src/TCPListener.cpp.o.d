@@ -1,5 +1,7 @@
-CMakeFiles/messenger_core.dir/src/Socket.cpp.o: \
- /home/danila/Project/Messenger/src/Socket.cpp /usr/include/stdc-predef.h \
+CMakeFiles/messenger_core.dir/src/TCPListener.cpp.o: \
+ /home/danila/Project/Messenger/src/TCPListener.cpp \
+ /usr/include/stdc-predef.h \
+ /home/danila/Project/Messenger/include/TCPListener.hpp \
  /home/danila/Project/Messenger/include/Socket.hpp \
  /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \

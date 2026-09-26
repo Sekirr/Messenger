@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/danila/projects/Messenger
+CMAKE_SOURCE_DIR = /home/danila/Project/Messenger
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/danila/projects/Messenger/build
+CMAKE_BINARY_DIR = /home/danila/Project/Messenger/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles /home/danila/projects/Messenger/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles /home/danila/Project/Messenger/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/projects/Messenger/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/danila/Project/Messenger/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -240,6 +240,30 @@ src/Socket.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/Socket.cpp.s
 .PHONY : src/Socket.cpp.s
 
+src/TCPListener.o: src/TCPListener.cpp.o
+.PHONY : src/TCPListener.o
+
+# target to build an object file
+src/TCPListener.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/TCPListener.cpp.o
+.PHONY : src/TCPListener.cpp.o
+
+src/TCPListener.i: src/TCPListener.cpp.i
+.PHONY : src/TCPListener.i
+
+# target to preprocess a source file
+src/TCPListener.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/TCPListener.cpp.i
+.PHONY : src/TCPListener.cpp.i
+
+src/TCPListener.s: src/TCPListener.cpp.s
+.PHONY : src/TCPListener.s
+
+# target to generate assembly for a file
+src/TCPListener.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/messenger_core.dir/build.make CMakeFiles/messenger_core.dir/src/TCPListener.cpp.s
+.PHONY : src/TCPListener.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -285,6 +309,9 @@ help:
 	@echo "... src/Socket.o"
 	@echo "... src/Socket.i"
 	@echo "... src/Socket.s"
+	@echo "... src/TCPListener.o"
+	@echo "... src/TCPListener.i"
+	@echo "... src/TCPListener.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

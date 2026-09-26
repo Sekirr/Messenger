@@ -1,2 +1,2 @@
-/usr/bin/ar qc libmessenger_core.a CMakeFiles/messenger_core.dir/src/Socket.cpp.o
+/usr/bin/ar qc libmessenger_core.a CMakeFiles/messenger_core.dir/src/Socket.cpp.o CMakeFiles/messenger_core.dir/src/TCPListener.cpp.o
 /usr/bin/ranlib libmessenger_core.a

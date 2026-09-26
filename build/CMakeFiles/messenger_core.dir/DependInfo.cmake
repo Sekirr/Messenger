@@ -8,7 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/danila/projects/Messenger/src/Socket.cpp" "CMakeFiles/messenger_core.dir/src/Socket.cpp.o" "gcc" "CMakeFiles/messenger_core.dir/src/Socket.cpp.o.d"
+  "/home/danila/Project/Messenger/src/Socket.cpp" "CMakeFiles/messenger_core.dir/src/Socket.cpp.o" "gcc" "CMakeFiles/messenger_core.dir/src/Socket.cpp.o.d"
+  "/home/danila/Project/Messenger/src/TCPListener.cpp" "CMakeFiles/messenger_core.dir/src/TCPListener.cpp.o" "gcc" "CMakeFiles/messenger_core.dir/src/TCPListener.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
