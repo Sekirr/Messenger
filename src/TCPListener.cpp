@@ -1,46 +1,58 @@
-#include "TCPListener.hpp"
+#include <TCPListener.hpp>
 
-TCPListener::TCPListener(Socket &&socket)
-    : socket_(std::move(socket)) {};
-
-void TCPListener::createSockaddr(sa_family_t family, in_addr_t addr, in_port_t port)
+void TCPListener::createServerAddress(sa_family_t family, int port, in_addr_t address)
 {
     serverAddress_.sin_family = family;
-    serverAddress_.sin_addr.s_addr = htonl(addr);
     serverAddress_.sin_port = htons(port);
-};
+    serverAddress_.sin_addr.s_addr = address;
+}
 
-void TCPListener::bind()
+bool TCPListener::createBind()
 {
-    if (::bind(
-            socket_.getFd(),
-            reinterpret_cast<const sockaddr *>(&serverAddress_),
-            sizeof(serverAddress_)) < 0)
+    if (statusOperation_ == State::Create)
     {
-        std::cerr << "Bind failed\n";
+        if (bind(
+                socket_.getFd(),
+                reinterpret_cast<const sockaddr *>(&serverAddress_),
+                sizeof(serverAddress_)) == -1)
+        {
+            std::cerr << "Error bind\n";
+            return false;
+        }
+        statusOperation_ = State::Bind;
+        return true;
     }
+    return false;
 };
-
-void TCPListener::listen()
+bool TCPListener::listenServer()
 {
-    if (::listen(
-            socket_.getFd(),
-            5) < 0)
+    if (statusOperation_ == State::Bind)
     {
-        std::cerr << "Listen failed\n";
+        if (listen(socket_.getFd(), 5) == -1)
+        {
+            std::cerr << "The server not listens\n";
+            return false;
+        }
+        statusOperation_ = State::Listen;
+        return true;
     }
-};
-
-Socket TCPListener::accept()
+    return false;
+}
+Result<Socket, std::error_code> TCPListener::acceptServer()
 {
-    int result = ::accept(
-        socket_.getFd(),
-        nullptr,
-        nullptr);
-    if (result < 0)
+    if (statusOperation_ == State::Listen)
     {
-        std::cerr << "Accept failed\n";
-        return Socket(-1);
+        int acceptFd = accept(socket_.getFd(), nullptr, nullptr);
+        if (acceptFd == -1)
+        {
+            std::error_code error(errno, std::generic_category());
+            return Result<Socket, std::error_code>::failure(std::move(error));
+        }
+        Socket listenClient(acceptFd);
+        return Result<Socket, std::error_code>::success(std::move(listenClient));
     }
-    return Socket(result);
+    else
+    {
+        throw std::logic_error("Server not listen!");
+    }
 }

@@ -1,6 +1,0 @@
-/home/danila/projects/Messenger/build/CMakeFiles/messenger_core.dir
-/home/danila/projects/Messenger/build/CMakeFiles/Client.dir
-/home/danila/projects/Messenger/build/CMakeFiles/Server.dir
-/home/danila/projects/Messenger/build/CMakeFiles/SocketTest.dir
-/home/danila/projects/Messenger/build/CMakeFiles/edit_cache.dir
-/home/danila/projects/Messenger/build/CMakeFiles/rebuild_cache.dir

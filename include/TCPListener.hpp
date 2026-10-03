@@ -1,21 +1,37 @@
+#pragma once
+
 #include "Socket.hpp"
+#include "Result.hpp"
 #include <netinet/in.h>
+#include <variant>
+#include <iostream>
+#include <cerrno>
 
 class TCPListener
 {
 private:
+    enum class State
+    {
+        Create,
+        Bind,
+        Listen
+    };
+
     Socket socket_;
     sockaddr_in serverAddress_{};
 
-public:
-    TCPListener(Socket &&socket);
-    TCPListener(const TCPListener &other) = delete;
-    TCPListener &operator=(const TCPListener &other) = delete;
-    TCPListener(TCPListener &&other) noexcept = default;
-    TCPListener &operator=(TCPListener &&other) noexcept = default;
+    State statusOperation_ = State::Create;
 
-    void createSockaddr(sa_family_t family, in_addr_t addr, in_port_t port);
-    void bind();
-    void listen();
-    Socket accept();
+public:
+    TCPListener(Socket socket)
+        : socket_(std::move(socket)) {}
+
+    TCPListener(TCPListener &&other) = default;
+    TCPListener &operator=(TCPListener &&other) = default;
+
+    void createServerAddress(sa_family_t family, int port, in_addr_t address);
+    bool createBind();
+    bool listenServer();
+    [[nodiscard]]
+    Result<Socket, std::error_code> acceptServer();
 };
