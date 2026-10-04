@@ -19,7 +19,7 @@ private:
         : result_(std::in_place_index<1>, std::move(error)) {};
 
 public:
-    static Result success(V value)
+    static Result returnValue(V value)
     {
         return Result(ValueTag{}, std::move(value));
     }
