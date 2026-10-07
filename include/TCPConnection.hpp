@@ -24,6 +24,8 @@ public:
     TCPConnection &operator=(const TCPConnection &other) = delete;
     TCPConnection(TCPConnection &&other) = default;
     TCPConnection &operator=(TCPConnection &&other) = default;
-    Result<bool, std::error_code> sendAll(std::string buffer);
-    Result<bool, std::error_code> recvExact();
+    std::error_code sendAll(const void *dataSend, std::size_t sizeSend);
+    std::error_code sendMessage(std::string &message);
+    std::error_code recvExact(void *dataRecv, std::size_t sizeData);
+    std::error_code recvMessage(std::vector<char> *buffer);
 };

@@ -1,121 +1,107 @@
 #include "TCPConnection.hpp"
 
-Result<bool, std::error_code> TCPConnection::sendAll(std::string buffer)
+std::error_code TCPConnection::sendAll(const void *dataSend, std::size_t dataSize)
 {
+    const char *bytes = static_cast<const char *>(dataSend);
     if (state_ == State::Success)
     {
-        // sends header
-        uint16_t messageHeader = htons(buffer.size());
-        std::size_t sizeMessageHeader = sizeof(messageHeader);
         std::size_t offset = 0;
-        while (offset < sizeMessageHeader)
+
+        while (offset < dataSize)
         {
-            ssize_t sendHeader = send(
+            ssize_t result = send(
                 socket_.getFd(),
-                reinterpret_cast<const char *>(messageHeader) + offset,
-                sizeMessageHeader - offset,
+                bytes + offset,
+                dataSize - offset,
                 0);
 
-            if (sendHeader == -1)
-            {
-                std::error_code error(errno, std::generic_category());
-                return Result<bool, std::error_code>::failure(error);
-            }
-            offset += static_cast<std::size_t>(sendHeader);
-        }
-
-        // sends message
-        ssize_t sendByte;
-        std::size_t sizeMessage = buffer.size();
-        offset = 0;
-
-        while (offset < sizeMessage)
-        {
-            sendByte = send(
-                socket_.getFd(),
-                buffer.data() + offset,
-                sizeMessage - offset,
-                0);
-
-            if (sendByte == -1)
+            if (result == -1)
             {
                 state_ = State::Error;
                 std::error_code error(errno, std::generic_category());
-                return Result<bool, std::error_code>::failure(error);
+                return error;
             }
-            offset += static_cast<std::size_t>(sendByte);
-        }
 
-        return Result<bool, std::error_code>::returnValue(true);
+            offset += static_cast<std::size_t>(result);
+        }
+        return {};
     }
-    return Result<bool, std::error_code>::returnValue(false);
 }
 
-Result<bool, std::error_code> TCPConnection::recvExact()
+std::error_code TCPConnection::sendMessage(std::string &message)
 {
     if (state_ == State::Success)
     {
-        // receive header
-        uint16_t messageHeader;
-        std::size_t sizeMessageHeader = sizeof(messageHeader);
-        std::size_t offset = 0;
+        uint16_t messageHeader = htons(message.size());
+        std::error_code ec = sendAll(&messageHeader, sizeof(messageHeader));
 
-        while (offset < sizeMessageHeader and state_ == State::Success)
+        if (ec)
         {
-            ssize_t recvHeader = recv(
-                socket_.getFd(),
-                reinterpret_cast<char *>(messageHeader) + offset,
-                sizeMessageHeader - offset,
-                0);
-
-            if (recvHeader == -1)
-            {
-                std::error_code error(errno, std::generic_category());
-                state_ = State::Error;
-                return Result<bool, std::error_code>::failure(error);
-            }
-
-            // connection close()
-            if (recvHeader == 0)
-            {
-                socket_.~Socket();
-                state_ = State::CloseConnect;
-                break;
-            }
-
-            offset += static_cast<std::size_t>(recvHeader);
+            return ec;
         }
 
-        // receive message
-        offset = 0;
-        std::string recvMessage;
-        std::size_t lengthMessage = static_cast<std::size_t>(ntohs(messageHeader));
+        ec = sendAll(message.data(), message.length());
 
-        while (offset < lengthMessage and state_ == State::Success)
-        {
-            ssize_t recvMessage = recv(
-                socket_.getFd(),
-                &recvMessage - offset,
-                lengthMessage + offset,
-                0);
-
-            if (recvMessage == -1)
-            {
-                std::error_code error(errno, std::generic_category());
-                state_ = State::Error;
-                return Result<bool, std::error_code>::failure(error);
-            }
-
-            // connection close()
-            if (recvMessage == 0)
-            {
-                socket_.~Socket();
-                state_ = State::CloseConnect;
-                break;
-            }
-
-            offset += static_cast<std::size_t>(recvMessage);
-        }
+        return ec;
     }
-    return Result<bool, std::error_code>::returnValue(false);
+}
+
+std::error_code TCPConnection::recvExact(void *dataRecv, std::size_t(sizeData))
+{
+    if (state_ == State::Success)
+    {
+        std::size_t offset = 0;
+        char *byte = static_cast<char *>(dataRecv);
+
+        while (offset < sizeData)
+        {
+            ssize_t result = recv(
+                socket_.getFd(),
+                byte + offset,
+                sizeData - offset,
+                0);
+
+            if (result == -1)
+            {
+                std::error_code error(errno, std::generic_category());
+                state_ = State::Error;
+                return error;
+            }
+            if (result == 0)
+            {
+                std::error_code error(errno, std::generic_category());
+                state_ = State::CloseConnect;
+                return error;
+            }
+
+            offset += static_cast<std::size_t>(result);
+        }
+
+        return {};
+    }
+}
+
+std::error_code TCPConnection::recvMessage(std::vector<char> *buffer)
+{
+    if (state_ == State::Success)
+    {
+        uint16_t messageHeader;
+
+        std::error_code ec = recvExact(&messageHeader, sizeof(messageHeader));
+
+        if (ec)
+        {
+            return ec;
+        }
+
+        std::size_t sizeBuffer = static_cast<std::size_t>(ntohl(messageHeader));
+        ec = recvExact(buffer, sizeBuffer);
+
+        if (ec)
+        {
+            return ec;
+        }
+
+        return {};
+    }
 }
