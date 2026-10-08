@@ -3,6 +3,7 @@
 std::error_code TCPConnection::sendAll(const void *dataSend, std::size_t dataSize)
 {
     const char *bytes = static_cast<const char *>(dataSend);
+
     if (state_ == State::Success)
     {
         std::size_t offset = 0;
@@ -24,8 +25,9 @@ std::error_code TCPConnection::sendAll(const void *dataSend, std::size_t dataSiz
 
             offset += static_cast<std::size_t>(result);
         }
-        return {};
+
     }
+    return {};
 }
 
 std::error_code TCPConnection::sendMessage(std::string &message)
@@ -44,6 +46,7 @@ std::error_code TCPConnection::sendMessage(std::string &message)
 
         return ec;
     }
+    return {};
 }
 
 std::error_code TCPConnection::recvExact(void *dataRecv, std::size_t(sizeData))
@@ -69,16 +72,14 @@ std::error_code TCPConnection::recvExact(void *dataRecv, std::size_t(sizeData))
             }
             if (result == 0)
             {
-                std::error_code error(errno, std::generic_category());
                 state_ = State::CloseConnect;
-                return error;
+                return std::make_error_code(std::errc::not_connected)
             }
 
             offset += static_cast<std::size_t>(result);
         }
-
-        return {};
     }
+    return {};
 }
 
 std::error_code TCPConnection::recvMessage(std::vector<char> *buffer)
@@ -101,7 +102,6 @@ std::error_code TCPConnection::recvMessage(std::vector<char> *buffer)
         {
             return ec;
         }
-
-        return {};
     }
+    return {};
 }

@@ -49,7 +49,7 @@ Result<Socket, std::error_code> TCPListener::acceptServer()
             return Result<Socket, std::error_code>::failure(std::move(error));
         }
         Socket listenClient(acceptFd);
-        return Result<Socket, std::error_code>::success(std::move(listenClient));
+        return Result<Socket, std::error_code>::returnValue(std::move(listenClient));
     }
     else
     {
