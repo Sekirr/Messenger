@@ -1,5 +1,5 @@
 #pragma once
-#include <iostream>
+
 #include <sys/socket.h>
 
 class Socket
@@ -10,6 +10,7 @@ private:
 public:
     explicit Socket(int fd)
         : fd_(fd) {}
+
     Socket(int domain, int type, int protocol);
 
     Socket(const Socket &other) = delete;
@@ -17,7 +18,9 @@ public:
 
     Socket(Socket &&other) noexcept;
     Socket &operator=(Socket &&other) noexcept;
+
     ~Socket();
 
     int getFd() const noexcept;
+    void reset() noexcept;
 };
