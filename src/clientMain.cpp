@@ -13,16 +13,17 @@ int main() {
 
   if (!ec) {
     ec = clientConnection.connectTo();
-
-    if (!ec) {
-      ec = clientConnection.sendMessage("Hello. This is first message");
+    std::cout << ec.message() << std::endl;
+    while (!ec) {
+      std::string message;
+      std::getline(std::cin, message);
+      ec = clientConnection.sendMessage(message);
 
       if (!ec) {
         std::vector<char> recvMessageClient;
         ec = clientConnection.recvMessage(recvMessageClient);
-        std::cout.write(recvMessageClient.data(), recvMessageClient.size());
-        std::cout << std::endl;
       }
+      message.clear();
     }
   }
 
