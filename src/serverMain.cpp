@@ -1,6 +1,30 @@
 
 #include <TCPConnection.hpp>
 #include <TCPListener.hpp>
+#include <thread>
+#include <vector>
+
+static void handleClient(TCPConnection clientConnection) {
+  std::error_code ec{};
+  while (true) {
+    std::vector<char> recvMessageServer;
+    ec = clientConnection.recvMessage(recvMessageServer);
+
+    if (ec) {
+      return;
+    }
+
+    const std::string msgSendServer(recvMessageServer.begin(),
+                                    recvMessageServer.end());
+
+    std::cout << msgSendServer << std::endl;
+    ec = clientConnection.sendMessage(msgSendServer);
+
+    if (ec) {
+      return;
+    }
+  }
+}
 
 int main() {
   std::error_code ec = {};
@@ -13,31 +37,21 @@ int main() {
   if (server.createBind()) {
     if (server.listenServer()) {
 
+      std::vector<std::thread> clientThreads;
+
       while (true) {
         Result clientAccept = server.acceptServer();
 
         if (clientAccept.hasValue()) {
-          TCPConnection serverConnection(std::move(clientAccept.getValue()));
+          TCPConnection clientConnection(std::move(clientAccept.getValue()));
+          clientThreads.emplace_back(handleClient, std::move(clientConnection));
 
-          while (true) {
-            std::vector<char> recvMessageServer;
-            ec = serverConnection.recvMessage(recvMessageServer);
-
-            if (ec) {
-              break;
-            }
-
-            const std::string msgSendServer(recvMessageServer.begin(),
-                                            recvMessageServer.end());
-
-            std::cout << msgSendServer << std::endl;
-            ec = serverConnection.sendMessage(msgSendServer);
-
-            if (ec) {
-              break;
+        } else {
+          for (auto &thread : clientThreads) {
+            if (thread.joinable()) {
+              thread.join();
             }
           }
-        } else {
           break;
         }
       }
