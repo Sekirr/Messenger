@@ -1,0 +1,7 @@
+threads testing
+
+1  | 23 msg/s | CPU: 0.2% | RAM: 7.5 MB | Threads: 2
+10 | 226 msg/s | CPU: 1.5% | RAM: 7.5 MB | Threads: 11
+20 | 451 msg/s | CPU: 2.9% | RAM: 7.7 MB | Threads: 21
+50 | 1095 msg/s | CPU: 7.2% | RAM: 8.1 MB | Threads: 51
+100| 2122 msg/s | CPU: 13.9% | RAM: 8.9 MB | Threads: 101
