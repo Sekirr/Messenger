@@ -1,8 +1,14 @@
 #include "ClientManager.hpp"
 
-void handleClient(TCPConnection clientConnection)
+void ClientManager::pushPoll(Socket socket)
 {
-    std::error_code ec{};
+    fds_.push_back({socket.getFd(),
+                    POLLIN,
+                    0});
+}
+
+std::error_code ClientManager::recvBuffer()
+{
     while (true)
     {
         std::vector<char> recvMessageServer;
@@ -16,7 +22,6 @@ void handleClient(TCPConnection clientConnection)
         const std::string msgSendServer(recvMessageServer.begin(),
                                         recvMessageServer.end());
 
-        std::cout << msgSendServer << std::endl;
         ec = clientConnection.sendMessage(msgSendServer);
 
         if (ec)
@@ -26,27 +31,44 @@ void handleClient(TCPConnection clientConnection)
     }
 }
 
-ClientManager::~ClientManager()
+std::error_code ClientManager::startServer()
 {
-    joinAll();
-}
-
-void ClientManager::stopAll()
-{
-    for (const auto &pair : managementThread)
+    while (!ec)
     {
-        shutdown(pair.first, SHUT_RDWR);
-    }
-}
+        int ready = poll(fds_.data(), fds_.size(), -1);
 
-void ClientManager::joinAll()
-{
-    for (auto &[fd, thread] : managementThread)
-    {
-        shutdown(fd, SHUT_RDWR);
-        if (thread.joinable())
+        if (ready < 0)
         {
-            thread.join();
+            if (errno == EINTR)
+            {
+                continue;
+            }
+
+            if (errno == EBADF)
+            {
+                for (auto &item : fds_)
+                {
+                    if (item.revents == POLLNVAL)
+                    {
+                        item.fd = -1;
+                    }
+                }
+            }
+        }
+        for (auto &item : fds_)
+        {
+            if (item.revents & POLLIN)
+            {
+                auto clientIt = clients_.find(item.fd);
+
+                if (clientIt == clients_.end())
+                {
+                    continue;
+                }
+                ClientState &client = clientIt->second;
+
+                client.
+            }
         }
     }
 }
