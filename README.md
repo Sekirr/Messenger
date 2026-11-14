@@ -2,7 +2,7 @@
 
 A C++20 TCP echo-server and command-line client for exploring Linux network programming, message framing, resource management, and concurrency.
 
-**Project status:** Work in progress. The `master` branch contains the original blocking, thread-per-client implementation. A `poll()`-based event loop is being developed separately on `feature/poll` and is not yet complete.
+**Project status:** Work in progress. The `master` branch contains the original blocking, thread-per-client implementation. Future development may include nonblocking I/O with poll(), improved connection management, and additional automated testing.
 
 ## Features
 
